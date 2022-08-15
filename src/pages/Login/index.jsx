@@ -21,12 +21,18 @@ export const Login = () => {
   } = useForm({
     defaultValues: {
       email: 'test@test.ru',
-      password: '123',
+      password: '12345',
     },
   })
 
-  const onSubmit = (values) => {
-    dispatch(fetchAuth(values))
+  const onSubmit = async (values) => {
+    const data = await dispatch(fetchAuth(values))
+    if (!data.payload) {
+      return alert('Не удалось авторизоваться!')
+    }
+    if ('token' in data.payload) {
+      localStorage.setItem('token', data.payload.token)
+    }
   }
 
   if (isAuth) {
