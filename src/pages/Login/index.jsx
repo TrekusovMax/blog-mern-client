@@ -23,6 +23,7 @@ export const Login = () => {
       email: 'test@test.ru',
       password: '12345',
     },
+    mode: 'onChange',
   })
 
   const onSubmit = async (values) => {
@@ -63,7 +64,7 @@ export const Login = () => {
           {...register('password', { required: 'Укажите пароль' })}
           type="password"
         />
-        <Button type="submit" size="large" variant="contained" fullWidth>
+        <Button disabled={!isValid} type="submit" size="large" variant="contained" fullWidth>
           Войти
         </Button>
       </form>

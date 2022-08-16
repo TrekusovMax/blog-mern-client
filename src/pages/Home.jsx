@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchPosts, fetchTags } from '../redux/slices/post'
 export const Home = () => {
   const dispatch = useDispatch()
+  const userData = useSelector((state) => state.auth.data)
   const { posts, tags } = useSelector((state) => state.posts)
   const isPostsLoading = posts.status === 'loading'
   const isTagsLoading = tags.status === 'loading'
@@ -21,11 +22,7 @@ export const Home = () => {
 
   return (
     <>
-      <Tabs
-        style={{ marginBottom: 15 }}
-        value={0}
-        aria-label="basic tabs example"
-      >
+      <Tabs style={{ marginBottom: 15 }} value={0} aria-label="basic tabs example">
         <Tab label="Новые" />
         <Tab label="Популярные" />
       </Tabs>
@@ -39,13 +36,13 @@ export const Home = () => {
                 id={obj._id}
                 title={obj.title}
                 key={index}
-                imageUrl={obj.imageUrl}
+                imageUrl={obj.imageUrl ? `http://localhost:4444${obj.imageUrl}` : ''}
                 user={obj.user}
                 createdAt={obj.createdAt}
                 viewsCount={obj.viewsCount}
                 commentsCount={3}
                 tags={obj.tags}
-                isEditable
+                isEditable={Boolean(userData?._id === obj.user._id)}
               />
             ),
           )}
